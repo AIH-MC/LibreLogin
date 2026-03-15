@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class AuthenticPremiumProvider implements PremiumProvider {
 
@@ -198,7 +200,8 @@ public class AuthenticPremiumProvider implements PremiumProvider {
     private PremiumUser getUserFromMojang(String name) throws PremiumException {
         try {
             plugin.reportMainThread();
-            var connection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openConnection();
+            String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8.toString());
+            var connection = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + encodedName).openConnection();
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
 
